@@ -1,0 +1,75 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = FloodLevels
+build_property.RootNamespace = FloodLevels
+build_property.ProjectDir = C:\Users\adamp\Desktop\FloodLevels\FloodLevels\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\adamp\Desktop\FloodLevels\FloodLevels
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/StationPages/CreateStation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGlvblBhZ2VzXENyZWF0ZVN0YXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/StationPages/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGlvblBhZ2VzXERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/StationPages/Overview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGlvblBhZ2VzXE92ZXJ2aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/StationPages/Stations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGlvblBhZ2VzXFN0YXRpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/StationPages/ValuesOverview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RhdGlvblBhZ2VzXFZhbHVlc092ZXJ2aWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/adamp/Desktop/FloodLevels/FloodLevels/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-peadni4y2v

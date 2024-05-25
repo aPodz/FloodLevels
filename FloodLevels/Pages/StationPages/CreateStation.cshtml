@@ -1,0 +1,92 @@
+﻿@page
+@model FloodLevels.Pages.StationPages.CreateStationModel
+@{
+}
+
+<h1>New Station</h1>
+<hr />
+
+<form id="createForm" method="post">
+
+    <div class="form-group">
+        <label asp-for="Station.Title" class="control-label"></label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
+            </div>
+            <input asp-for="Station.Title" class="form-control form-control-sm" maxlength="16" style="max-width: 300px;" />
+        </div>
+        <small class="form-text text-muted">Title should not exceed 16 characters.</small>
+        <span asp-validation-for="Station.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Station.FloodLevel" class="control-label"></label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-water"></i></span>
+            </div>
+            <input asp-for="Station.FloodLevel" class="form-control form-control-sm" min="1" max="100" style="max-width: 300px;" />
+        </div>
+        <small class="form-text text-muted">Flood level must be between 1 and 100.</small>
+        <span asp-validation-for="Station.FloodLevel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Station.DroughtLevel" class="control-label"></label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-sun"></i></span>
+            </div>
+            <input asp-for="Station.DroughtLevel" class="form-control form-control-sm" min="1" max="100" style="max-width: 300px;" />
+        </div>
+        <small class="form-text text-muted">Drought level must be between 1 and 100.</small>
+        <span asp-validation-for="Station.DroughtLevel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Station.TimeOutinMinutes" class="control-label"></label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-clock"></i></span>
+            </div>
+            <input asp-for="Station.TimeOutinMinutes" class="form-control form-control-sm" style="max-width: 300px;" />
+        </div>
+        <small class="form-text text-muted">Specify the timeout in minutes.</small>
+        <span asp-validation-for="Station.TimeOutinMinutes" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary btn-lg mt-3" type="submit">Send</button>
+
+</form>
+
+<script>
+    var floodLevelInput = document.getElementById('Station_FloodLevel');
+    var droughtLevelInput = document.getElementById('Station_DroughtLevel');
+
+    floodLevelInput.addEventListener('input', validateLevels);
+    droughtLevelInput.addEventListener('input', validateLevels);
+
+    function validateLevels() {
+        var floodLevel = parseInt(floodLevelInput.value);
+        var droughtLevel = parseInt(droughtLevelInput.value);
+
+        if (floodLevel <= droughtLevel) {
+            droughtLevelInput.setCustomValidity('Flood level must be higher than drought level.');
+        } else {
+            droughtLevelInput.setCustomValidity('');
+        }
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+    }
+</style>

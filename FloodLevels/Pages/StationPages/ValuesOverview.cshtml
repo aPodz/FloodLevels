@@ -1,0 +1,70 @@
+﻿@page
+@model FloodLevels.Pages.StationPages.ValuesOverviewModel
+@{
+    ViewData["Title"] = "Display Data";
+    string[] ValueProperties = new string[]
+    {
+      "Station",
+      "Value",
+      "Timestamp"
+    };
+
+    Model.Values = Model.Values.OrderByDescending(v => v.Timestamp).ToList();
+}
+
+<h1 class="mb-4">Records</h1>
+
+<form method="get" class="form-inline mb-3">
+    <div class="form-group col-sm-4">
+        <label for="filter" class="mr-2">Filter by Station:</label>
+        <input type="text" id="filter" name="Filter" value="@Model.Filter" class="form-control" />
+    </div>
+    <br>
+    <div class="col-sm-8">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                @foreach (var head in ValueProperties)
+                {
+                    <th>@head</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var newValue in Model.Values)
+            {
+                var cssClass = (newValue.Value < newValue.DroughtLevel || newValue.Value > newValue.FloodLevel) ? "table-danger" : "";
+                <tr class="@cssClass">
+                    <td>@newValue.StationTitle</td>
+                    <td>@newValue.Value</td>
+                    <td>@newValue.Timestamp</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table-danger {
+        background-color: darkmagenta;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+</style>

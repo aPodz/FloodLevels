@@ -1,0 +1,64 @@
+﻿@page
+@model FloodLevels.Pages.StationPages.StationsModel
+@{
+    ViewData["Title"] = "Display Data";
+    string[] StationProperties = new string[]
+    {
+        "Id",
+        "Title",
+        "Flood Level",
+        "Drought Level",
+        "Timeout in Minutes"
+    };
+}
+
+<h1 class="mb-4">Stations</h1>
+
+<div class="table-responsive">
+    <table id="stationsTable" class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                @{
+                    foreach (var head in StationProperties)
+                    {
+                        <th>@head</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var station in Model.Stations)
+            {
+                <tr onclick="editStation('@station.Id')">
+                    <td>@station.Id</td>
+                    <td><span style="cursor: pointer; font-weight: bold;">@station.Title</span></td>
+                    <td>@station.FloodLevel</td>
+                    <td>@station.DroughtLevel</td>
+                    <td>@station.TimeOutinMinutes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-page="./CreateStation" class="btn btn-success">Add Station</a>
+</div>
+
+<script>
+    function editStation(stationId) {
+        window.location.href = './Detail/' + stationId;
+    }
+</script>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+</style>

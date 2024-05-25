@@ -1,0 +1,265 @@
+﻿@page "{id:int}"
+@model FloodLevels.Pages.StationPages.DetailModel
+@{
+    ViewData["Title"] = "Station Detail";
+    var isEditMode = Model.IsEditMode;
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+
+
+@if (isEditMode)
+{
+    <form id="editForm" method="post">
+
+        <input type="hidden" asp-for="Station.Id" />
+        <div class="form-group">
+            <label asp-for="Station.Title" class="control-label"></label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
+                </div>
+                <input asp-for="Station.Title" class="form-control form-control-sm" maxlength="16" style="max-width: 300px;" />
+            </div>
+            <small class="form-text text-muted">Title should not exceed 16 characters.</small>
+            <span asp-validation-for="Station.Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Station.FloodLevel" class="control-label"></label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-water"></i></span>
+                </div>
+                <input asp-for="Station.FloodLevel" id="Station_FloodLevel" class="form-control form-control-sm" min="1" max="100" style="max-width: 300px;" />
+            </div>
+            <small class="form-text text-muted">Flood level must be between 1 and 100.</small>
+            <span asp-validation-for="Station.FloodLevel" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Station.DroughtLevel" class="control-label"></label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-sun"></i></span>
+                </div>
+                <input asp-for="Station.DroughtLevel" id="Station_DroughtLevel" class="form-control form-control-sm" min="1" max="100" style="max-width: 300px;" />
+            </div>
+            <small class="form-text text-muted">Drought level must be between 1 and 100.</small>
+            <span asp-validation-for="Station.DroughtLevel" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Station.TimeOutinMinutes" class="control-label"></label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                </div>
+                <input asp-for="Station.TimeOutinMinutes" class="form-control form-control-sm" style="max-width: 300px;" />
+            </div>
+            <span asp-validation-for="Station.TimeOutinMinutes" class="text-danger"></span>
+        </div>
+       
+        <button type="submit" class="btn btn-primary" asp-page-handler="Save">Save</button>
+
+    </form>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mx-auto">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>@Model.Station.Title</span>
+                                    <div class="station-actions">
+                                        <form method="post" asp-page-handler="Edit" class="d-inline">
+                                            <button type="submit" class="btn btn-outline-primary mr-2"><i class="bi bi-pencil"></i></button>
+                                        </form>
+                                        <form method="post" asp-page-handler="Delete" class="d-inline">
+                                            <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Flood Level:</strong> @Model.Station.FloodLevel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drought Level:</strong> @Model.Station.DroughtLevel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timeout in Minutes:</strong> @Model.Station.TimeOutinMinutes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    @if (Model.StationValues != null && Model.StationValues.Any())
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>Station History:</h3>
+                    <div style="overflow-x:auto;">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Value</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var value in Model.StationValues)
+                                {
+                                    var cssClass = (value.Value < Model.Station.DroughtLevel || value.Value > Model.Station.FloodLevel) ? "table-danger" : "";
+                                    <tr class="@cssClass">
+                                        <td>@value.Value</td>
+                                        <td>@value.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <canvas id="histogram"></canvas>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No records available for this station.</p>
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {           
+
+            var ctx = document.getElementById('histogram').getContext('2d');
+            var values = @Html.Raw(Json.Serialize(Model.StationValues.OrderByDescending(v => v.Timestamp).Take(10).Select(v => v.Value)));
+            var timestamps = @Html.Raw(Json.Serialize(Model.StationValues.OrderByDescending(v => v.Timestamp).Take(10).Select(v => v.Timestamp)));
+            var dates = timestamps.map(timestamp => new Date(timestamp)).reverse(); // Reverse the order of dates
+
+            var floodLevel = @Model.Station.FloodLevel;
+            var droughtLevel = @Model.Station.DroughtLevel;
+
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates.map(date => date.toLocaleString()),
+                    datasets: [{
+                        label: 'Water Level',
+                        data: values.reverse(),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: [
+                                {
+                                    type: 'line',
+                                    mode: 'horizontal',
+                                    scaleID: 'y',
+                                    value: floodLevel,
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2,
+                                },
+                                {
+                                    type: 'line',
+                                    mode: 'horizontal',
+                                    scaleID: 'y',
+                                    value: droughtLevel,
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2,
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+        });       
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        .table-danger {
+            background-color: darkmagenta;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .thead-dark th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .station-details {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .station-info p {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .station-actions {
+            text-align: right;
+        }
+
+            .station-actions button {
+                margin-left: 10px;
+            }
+
+    </style>
+}
